@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IRepo, IRepoIssue} from "../../models/RepoModels";
 
-interface repoState {
+export interface repoState {
     repo: IRepo
     issues: IRepoIssue[]
 }

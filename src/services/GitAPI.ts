@@ -9,6 +9,7 @@ export default class GitAPI {
         try {
             const response = await axios.get(`https://api.github.com/repos/${repoOwner}/${repoName}/issues`)
 
+            if(response.status != 200) return null
 
             return response.data
         } catch (error) {
@@ -25,6 +26,7 @@ export default class GitAPI {
         try {
             const response = await axios.get(`https://api.github.com/repos/${repoOwner}/${repoName}`)
 
+            if(response.status != 200) return null
 
             return response.data
         } catch (error) {

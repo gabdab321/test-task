@@ -2,37 +2,24 @@ import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import axios from 'axios'
 import Navbar from './Navbar'
-import createMockStore from "redux-mock-store"
-import { Provider } from "react-redux"
+import {renderWithProviders} from "../../utils/test-utils";
+import {setupStore} from "../../redux/store";
 
 jest.mock('axios')
 
 describe('Navbar component', () => {
-    const initialState = {
-        repo: {
-            private: false,
-            id: 0,
-            stargazers_count: 0,
-            name: "something",
-            owner: { login: "enter" }
-        },
-        issues: []
-    }
-    const mockStore = createMockStore()
-    let store
-
     beforeEach(() => {
         jest.clearAllMocks()
     })
 
     it('renders without crashing', () => {
-        store = mockStore(initialState)
-        render(<Provider store={store}><Navbar /></Provider>)
+        const store = setupStore()
+        renderWithProviders(<Navbar />, {store})
     })
 
     it('displays error message if invalid URL is entered', async () => {
-        store = mockStore(initialState)
-        const { getByPlaceholderText, getByText, queryByText } = render(<Provider store={store}><Navbar /></Provider>)
+        const store = setupStore()
+        const { getByPlaceholderText, getByText, queryByText } = renderWithProviders(<Navbar />, {store})
         const input = getByPlaceholderText('Enter repo URL')
         const button = getByText('Load issues')
 
@@ -45,7 +32,7 @@ describe('Navbar component', () => {
     })
 
     it('fetches and displays repo issues on valid URL and successful request', async () => {
-        store = mockStore(initialState)
+        const store = setupStore()
         const mockedGetRepo = jest.spyOn(axios, 'get')
         mockedGetRepo.mockResolvedValueOnce({
             data: {
@@ -85,7 +72,7 @@ describe('Navbar component', () => {
             ],
         })
 
-        const { getByPlaceholderText, getByText } = render(<Provider store={store}><Navbar /></Provider>)
+        const { getByPlaceholderText, getByText } = renderWithProviders(<Navbar />, {store})
         const input = getByPlaceholderText('Enter repo URL')
         const button = getByText('Load issues')
 
@@ -99,11 +86,11 @@ describe('Navbar component', () => {
     })
 
     it('displays error message if request fails', async () => {
-        store = mockStore(initialState)
+        const store = setupStore()
         const mockedGetRepo = jest.spyOn(axios, 'get')
         mockedGetRepo.mockRejectedValueOnce(new Error('Request failed'))
 
-        const { getByPlaceholderText, getByText, queryByText } = render(<Provider store={store}><Navbar /></Provider>)
+        const { getByPlaceholderText, getByText, queryByText } = renderWithProviders(<Navbar />, {store})
         const input = getByPlaceholderText('Enter repo URL')
         const button = getByText('Load issues')
 

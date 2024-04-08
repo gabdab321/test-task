@@ -1,31 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import "./App.scss"
 import "bootstrap/dist/css/bootstrap.min.css"
-import GitAPI from "./services/GitAPI";
-import {Container, Row, Col, Form, Button, Breadcrumb} from "react-bootstrap";
+import {Container, Row, Col, Breadcrumb} from "react-bootstrap";
 import {StarFill} from "react-bootstrap-icons"
 import Navbar from "./components/Navbar/Navbar";
 import {useAppSelector} from "./hooks/reduxHooks";
+import Board from "./components/Board/Board";
+import BreadCrumb from "./components/BreadCrumb/BreadCrumb";
 
 function App() {
-    const {repo, issues} = useAppSelector(state => state.repo)
+    const {issues} = useAppSelector(state => state.repo)
 
     return (
         <div className="App">
             <Container className="mt-3" fluid>
                 <Navbar/>
-                <Row xs="auto">
-                    <Col >
-                        <Breadcrumb className="m-3">
-                            <Breadcrumb.Item href={`https://github.com/${repo.owner.login}`}>{repo.owner.login}</Breadcrumb.Item>
-                            <Breadcrumb.Item href={`https://github.com/${repo.owner.login}/${repo.name}}`}>
-                                {repo.name}
-                            </Breadcrumb.Item>
-                        </Breadcrumb>
-                    </Col>
-                    <Col className="align-content-center">
-                        <div className="m-0"><StarFill width="26px" height="26px" color="#E67700"/> {"starsCount"} stars</div>
-                    </Col>
+                <BreadCrumb/>
+                <Row className="mt-4" xs={3}>
+                    <Board issues={issues.filter(issue => issue.state === "open")} title="ToDo"/>
+                    <Board issues={issues.filter(issue => issue.state === "closed")} title="In Progress"/>
+                    <Board issues={issues.filter(issue => issue.state === "closed")} title="Done"/>
                 </Row>
             </Container>
         </div>
