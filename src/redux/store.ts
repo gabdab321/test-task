@@ -1,8 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit";
+import {repoReducer} from "./slices/repoSlice";
 
 const store = configureStore({
     devTools: true,
-    reducer: {}
+    reducer: {
+        repo: repoReducer
+    }
 })
 
 export default store

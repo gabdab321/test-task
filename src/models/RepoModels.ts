@@ -1,4 +1,4 @@
-export interface RepoIssue {
+export interface IRepoIssue {
     title: string
     comments: number
     created_at: string
@@ -9,8 +9,12 @@ export interface RepoIssue {
     }
 }
 
-export interface Repo {
+export interface IRepo {
     id: number
     private: boolean
     stargazers_count: number
+    name: string
+    owner: {
+        login: string
+    }
 }
