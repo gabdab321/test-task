@@ -1,20 +1,22 @@
-import React from 'react';
+import React, {Dispatch} from 'react';
 import {Col, Row} from "react-bootstrap";
-import {IRepoIssue} from "../../models/RepoModels";
 import BoardItem from "../BoardItem/BoardItem";
 import "./Board.scss"
+import {IssuesCategories} from "../../redux/slices/userIssuesSlice";
+import {useAppSelector} from "../../hooks/reduxHooks";
 
 interface BoardProps {
-    title: string,
-    issues: IRepoIssue[]
+    category: keyof typeof IssuesCategories
 }
 
-const Board = ({title, issues}: BoardProps) => {
+const Board = ({category}: BoardProps) => {
+    const userIssues = useAppSelector(state => state.userIssues)
+
     return (
         <Col className="text-center fw-bold">
-            {title}
+            {IssuesCategories[category]}
             <Row className="m-1 justify-content-center board" >
-                {issues.map(issue => <BoardItem issue={issue} key={issue.number}/>)}
+                {userIssues[IssuesCategories[category]].map(issue => <BoardItem currentBoard={IssuesCategories[category]} issue={issue} key={issue.number}/>)}
             </Row>
         </Col>
     );

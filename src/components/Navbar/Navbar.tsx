@@ -4,6 +4,7 @@ import GitAPI from "../../services/GitAPI";
 import {useAppDispatch} from "../../hooks/reduxHooks";
 import {checkRepoURL} from "../../utils/checkRepoURL/checkRepoURL";
 import {setRepo, setRepoIssues} from "../../redux/slices/repoSlice";
+import {IssuesCategories, setIssues} from "../../redux/slices/userIssuesSlice";
 
 const Navbar = () => {
     const dispatch = useAppDispatch()
@@ -34,6 +35,9 @@ const Navbar = () => {
         /* after all checks dispatching to the redux store */
         dispatch(setRepo(repo))
         dispatch(setRepoIssues(repoIssues))
+
+        /* request to github api returns only opened issues, so I can store it all in "todo" category */
+        dispatch(setIssues({category: IssuesCategories.TODO, issues: repoIssues}))
     }
 
     return (
