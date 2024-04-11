@@ -1,4 +1,4 @@
-.board_item {
+.kanban-item {
     width: 90%;
     height: auto;
     max-height: 200px;
@@ -8,6 +8,8 @@
     border-radius: 8px;
 
     cursor: pointer;
+    transition: 0.6s all ease;
+
 }
 
 .dragging {

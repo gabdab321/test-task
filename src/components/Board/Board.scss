@@ -2,4 +2,18 @@
     background-color: #CED4DA;
     height: 800px;
     overflow: auto;
+    justify-content: start;
+
+    transition: 0.6s all ease;
+}
+
+.kanban-column {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    overflow-y: auto;
+    min-height: 200px;
+    transition: 0.6s all ease;
+
 }

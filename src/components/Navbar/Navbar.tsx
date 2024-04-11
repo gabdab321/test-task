@@ -37,7 +37,7 @@ const Navbar = () => {
         dispatch(setRepoIssues(repoIssues))
 
         /* request to github api returns only opened issues, so I can store it all in "todo" category */
-        dispatch(setIssues({category: IssuesCategories.TODO, issues: repoIssues}))
+        dispatch(setIssues({category: IssuesCategories.TODO, issues: repoIssues, repoId: repo.id}))
     }
 
     return (
