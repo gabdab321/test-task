@@ -1,5 +1,5 @@
 import React from 'react';
-import {IssuesCategories} from "../../redux/slices/userIssuesSlice";
+import {IssuesCategories} from "../../redux/slices/repoSlice";
 import "./KanbanBoard.scss"
 import Board from "../Board/Board";
 

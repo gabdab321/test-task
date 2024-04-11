@@ -55,5 +55,8 @@
     "transformIgnorePatterns": [
       "node_modules/(?!axios)/"
     ]
+  },
+  "devDependencies": {
+    "jest-date-mock": "^1.0.9"
   }
 }

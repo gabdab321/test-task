@@ -1,7 +1,7 @@
 .kanban-item {
     width: 90%;
     height: auto;
-    max-height: 200px;
+    //max-height: 200px;
 
     background-color: #fff;
     border: 2px #000 solid;
@@ -15,7 +15,4 @@
 .dragging {
     opacity: 0.5;
     border: 2px crimson solid;
-
-    width: 90%;
-    height: 200px;
 }

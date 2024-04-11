@@ -3,8 +3,9 @@ import {Alert, Button, Col, Form, Row} from "react-bootstrap";
 import GitAPI from "../../services/GitAPI";
 import {useAppDispatch} from "../../hooks/reduxHooks";
 import {checkRepoURL} from "../../utils/checkRepoURL/checkRepoURL";
-import {setRepo, setRepoIssues} from "../../redux/slices/repoSlice";
-import {IssuesCategories, setIssues} from "../../redux/slices/userIssuesSlice";
+import {setRepo, setIssues, IssuesCategories, localStorageIssues, setUserIssues} from "../../redux/slices/repoSlice";
+import {compareIssues} from "../../utils/compareIssues/compareIssues";
+import {concatIssues} from "../../utils/concatIssues/concatIssues";
 
 const Navbar = () => {
     const dispatch = useAppDispatch()
@@ -29,15 +30,43 @@ const Navbar = () => {
             return
         }
 
-        /* remove error message on success */
+        /* remove error message if request successful */
         setError("")
+
+        console.log(repoIssues)
+
+        // init local storage
+        if(!localStorage.getItem("userIssues")) localStorage.setItem("userIssues", JSON.stringify([]))
+
+        const oldLocalData = localStorage.getItem("userIssues")
+        const oldUserIssues: localStorageIssues[] | null = oldLocalData ? JSON.parse(oldLocalData) : null
+
+        if(oldUserIssues) {
+            const currentIssues = oldUserIssues.find(issue => issue.repoId === repo.id)
+            // checking if we already have issues of this repo in a localStorage
+            if(currentIssues) {
+                // compare two arrays, so we know if there are some new issues
+                const newIssues = compareIssues(repoIssues, concatIssues(currentIssues.issues))
+
+                // adding new issues to the old issues array
+                currentIssues.issues[IssuesCategories.TODO].unshift(...newIssues)
+
+                dispatch(setUserIssues(currentIssues.issues))
+                dispatch(setRepo(repo))
+                return
+            }
+        }
 
         /* after all checks dispatching to the redux store */
         dispatch(setRepo(repo))
-        dispatch(setRepoIssues(repoIssues))
-
+        /* set all issues in state to the default */
+        dispatch(setUserIssues({
+            [IssuesCategories.TODO]: [],
+            [IssuesCategories.PROGRESS]: [],
+            [IssuesCategories.DONE]: []
+        } ))
         /* request to github api returns only opened issues, so I can store it all in "todo" category */
-        dispatch(setIssues({category: IssuesCategories.TODO, issues: repoIssues, repoId: repo.id}))
+        dispatch(setIssues({category: IssuesCategories.TODO, issues: repoIssues}))
     }
 
     return (

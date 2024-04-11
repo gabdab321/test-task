@@ -1,10 +1,8 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {repoReducer} from "./slices/repoSlice";
-import {userIssuesReducer} from "./slices/userIssuesSlice";
 
 const rootReducer = combineReducers({
     repo: repoReducer,
-    userIssues: userIssuesReducer
 })
 export function setupStore(preloadedState?: Partial<RootState>) {
     return configureStore({
