@@ -18,24 +18,34 @@ const Board = ({category}: BoardProps) => {
 
     const onDragOver = (e: React.DragEvent) => {
         e.preventDefault();
-        const target = (e.target as HTMLDivElement)
+        const target = e.target as HTMLDivElement
         /* adds highlighting to the item */
         if(target.closest(".kanban-item")) {
             (target.closest(".kanban-item") as HTMLDivElement).style.boxShadow = "-1px 7px 7px 1px rgba(0,0,0,0.75)"
+            return
         }
         /* adds highlighting to the top line */
         if(target.classList.contains("kanban-top")) {
             target.style.boxShadow = "-1px 7px 7px 1px rgba(0,0,0,0.75)"
+            return
         }
         /* adds highlighting to the board */
-        if(target.classList.contains("board")) {
-            target.style.boxShadow = "0px 0px 45px -2px rgba(0,0,0,0.5) inset"
+        if(target.closest(".board")) {
+            (target.closest(".board") as HTMLDivElement).style.boxShadow = "0px 0px 45px -2px rgba(0,0,0,0.5) inset"
         }
     }
 
     const onDragLeave = (e: React.DragEvent) => {
         /* remove highlighting */
-        (e.target as HTMLDivElement).style.boxShadow = "none"
+        const target = e.target as HTMLDivElement
+        const closest = target.closest(".board") as HTMLDivElement
+        if(target.classList.contains("kanban-top")) {
+            target.style.boxShadow = "none"
+            return
+        }
+        if(closest) {
+            closest.style.boxShadow = "none"
+        }
     }
 
     const KANBAN_ITEM = "kanban-item";
@@ -47,6 +57,8 @@ const Board = ({category}: BoardProps) => {
         const closestItem = target.closest(".kanban-item") as HTMLDivElement
         /* remove box shadow effect */
         closestItem ? closestItem.style.boxShadow = "none" : target.style.boxShadow = "none"
+        const closestBoard = target.closest(".board") as HTMLDivElement
+        if(closestBoard) closestBoard.style.boxShadow = "none"
 
         /* retrieve dragged issue and its original category */
         const issue: IRepoIssue = JSON.parse(e.dataTransfer.getData('issue'))

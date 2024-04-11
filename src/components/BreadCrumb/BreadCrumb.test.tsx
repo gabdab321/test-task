@@ -1,5 +1,4 @@
 import React from "react";
-import {fireEvent} from "@testing-library/react";
 import BreadCrumb from "./BreadCrumb";
 import {renderWithProviders} from "../../utils/test-utils";
 import {setupStore} from "../../redux/store";

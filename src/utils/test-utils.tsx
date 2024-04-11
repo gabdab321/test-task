@@ -1,13 +1,10 @@
 import React, { PropsWithChildren } from 'react'
 import { render } from '@testing-library/react'
 import type { RenderOptions } from '@testing-library/react'
-import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 
 import type { AppStore, RootState } from '../redux/store'
 import { setupStore } from '../redux/store'
-// As a basic setup, import your same slice reducers
-import {repoReducer} from "../redux/slices/repoSlice";
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -31,7 +28,7 @@ export function renderWithProviders(
         <Provider store={store}>{children}</Provider>
     )
 
-    // Return an object with the store and all of RTL's query functions
+    // Return an object with the store and all of RTLs query functions
     return {
         store,
         ...render(ui, { wrapper: Wrapper, ...renderOptions })

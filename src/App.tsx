@@ -8,13 +8,13 @@ import KanbanBoard from "./components/KanbanBoard/KanbanBoard";
 
 function App() {
     return (
-            <div className="App">
-                <Container className="mt-3" fluid>
-                    <Navbar/>
-                    <BreadCrumb/>
-                    <KanbanBoard/>
-                </Container>
-            </div>
+        <div className="App">
+            <Container className="mt-3" fluid>
+                <Navbar/>
+                <BreadCrumb/>
+                <KanbanBoard/>
+            </Container>
+        </div>
     );
 }
 

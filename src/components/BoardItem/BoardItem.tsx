@@ -8,7 +8,6 @@ import {formatDate} from "../../utils/formatDate/formatDate";
 interface IBoardItemProps {
     issue: IRepoIssue
     category: IssuesCategories
-
 }
 
 const BoardItem = ({category, issue}: IBoardItemProps) => {
@@ -32,10 +31,10 @@ const BoardItem = ({category, issue}: IBoardItemProps) => {
         (e.target as HTMLDivElement).style.boxShadow = "none"
     }
 
-    // TODO: add time when issue is created
     return (
         <Card
             className={`text-start m-2 kanban-item ${isDragging ? "dragging" : ""}`}
+            data-testid="board-item"
             draggable
             data-issue-id={issue.number}
             onDragLeave={e => onDragLeave(e)}

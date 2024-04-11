@@ -33,8 +33,6 @@ const Navbar = () => {
         /* remove error message if request successful */
         setError("")
 
-        console.log(repoIssues)
-
         // init local storage
         if(!localStorage.getItem("userIssues")) localStorage.setItem("userIssues", JSON.stringify([]))
 
